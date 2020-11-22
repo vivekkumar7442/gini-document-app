@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * InternalStakeHolderController this class is used for admin user
+ * restrict access with basic authentication
  * 
  * @author vivek
  *

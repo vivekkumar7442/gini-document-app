@@ -5,20 +5,23 @@
  */
 package com.gini.file.storage.request;
 
+import org.hibernate.validator.constraints.Range;
+import org.springframework.lang.Nullable;
+
 /**
  * @author vivek
  *
  */
 public class DocumentRequest extends BaseRequest {
-	
+
 	private Integer userId;
-	
+
 	private Integer documentId;
 
-	
+	@Nullable
+	@Range(min =5,message="description should be greated that four char")
 	private String description;
-	
-	
+
 	/**
 	 * @return the description
 	 */
@@ -60,7 +63,5 @@ public class DocumentRequest extends BaseRequest {
 	public void setDocumentId(Integer documentId) {
 		this.documentId = documentId;
 	}
-	
-	
 
 }

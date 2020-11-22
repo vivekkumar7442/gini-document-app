@@ -4,6 +4,7 @@ package com.gini.file.storage.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -75,13 +76,13 @@ public class DocumentController {
 				Status.SUCCESS);
 	}
 	
-	   @ApiOperation(value = SwaggerConstants.ApiOperations.DOCUMENTS.GET_DOCUMENT)
+	   @ApiOperation(value = SwaggerConstants.ApiOperations.DOCUMENTS.UPDATE_DESCRIPTION)
 	    @ApiResponses(value = { @ApiResponse(code = 200, message = Constants.SUCCESS, response = DocumentResponse.class),
 	            @ApiResponse(code = 403, message = Constants.FORBIDDEN),
 	            @ApiResponse(code = 422, message = Constants.NOT_FOUND),
 	            @ApiResponse(code = 417, message = Constants.EXCEPTION_FAILED) })
 	    @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-	    public ResponseResources<DocumentResponse> updateDocumentDetails(@RequestBody DocumentRequest request)  throws GiniCommonException{
+	    public ResponseResources<DocumentResponse> updateDocumentDetails(@Valid @RequestBody DocumentRequest request)  throws GiniCommonException{
 		   DocumentResponse response = documentService.updateDocumentDetails(request);
 	        return new ResponseResources<>(ResponseResources.R_CODE_OK, ResponseResources.RES_SUCCESS, response,
 	                Status.SUCCESS);

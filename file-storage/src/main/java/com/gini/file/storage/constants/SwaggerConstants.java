@@ -22,6 +22,9 @@ public class SwaggerConstants {
 			public static final String GET_DOCUMENT = "Used to get document details";
 			
 			public static final String GET_ALL_USER_DOCUMENT = "Used to get All user document details";
+			
+			public static final String UPDATE_DESCRIPTION = "Used to update document description";
+
 
 
 		}

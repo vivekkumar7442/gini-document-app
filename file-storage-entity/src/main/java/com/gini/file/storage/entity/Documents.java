@@ -39,7 +39,7 @@ public class Documents implements Serializable {
 	private String type;
 
 
-	@Column(name = "description")
+	@Column(name = "description",nullable=true)
 	private String description;
 
 	@Column(name = "category",nullable=true,length=500)

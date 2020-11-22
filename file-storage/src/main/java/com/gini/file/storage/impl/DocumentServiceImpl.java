@@ -123,6 +123,7 @@ public class DocumentServiceImpl extends BaseService implements IDocumentService
 			if (request.getDescription() != null
 					&& !request.getDescription().equalsIgnoreCase(documents.getDescription()))
 				documents.setDescription(request.getDescription());
+			documentResponse.setDescription(documents.getDescription());
 			documentRepository.save(documents);
 
 		} else {
