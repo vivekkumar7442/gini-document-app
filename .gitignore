@@ -1,0 +1,49 @@
+/target/
+/bin/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+.DS_Store
+
+.directory
+
+/.metadata/
+/.sonarlint/
+/.recommenders/
+Servers/Pivotal tc Server Developer Edition v4.0-config/web.xml
+Servers/Pivotal tc Server Developer Edition v4.0-config/tomcat-users.xml
+Servers/Pivotal tc Server Developer Edition v4.0-config/server.xml
+Servers/Pivotal tc Server Developer Edition v4.0-config/jmxremote.password
+Servers/Pivotal tc Server Developer Edition v4.0-config/jmxremote.access
+Servers/Pivotal tc Server Developer Edition v4.0-config/context.xml
+Servers/Pivotal tc Server Developer Edition v4.0-config/catalina.properties
+Servers/Pivotal tc Server Developer Edition v4.0-config/catalina.policy
+file-storage-entity/mvnw.cmd
+file-storage-entity/mvnw
+file-storage-entity/.mvn/wrapper/maven-wrapper.properties
+file-storage-entity/.mvn/wrapper/maven-wrapper.jar
+file-storage-entity/.mvn/wrapper/MavenWrapperDownloader.java
+file-storage/mvnw.cmd
+file-storage/mvnw
