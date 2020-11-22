@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  */
 
 @RestController
-@RequestMapping("/v1/isv/document")
+@RequestMapping("/isv/v1/document")
 public class InternalStakeHolderController {
 
 	@Autowired
