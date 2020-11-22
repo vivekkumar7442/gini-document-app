@@ -7,6 +7,8 @@ package com.gini.file.storage.objectcreator;
 
 import java.sql.Timestamp;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 
 import com.gini.file.storage.entity.Documents;
@@ -26,7 +28,7 @@ public class MockObjectCreator {
 	 * @return
 	 */
 	public Documents getDocumentDetails() {
-		Documents documents=new Documents();
+		Documents documents = new Documents();
 		documents.setId(1);
 		documents.setCategory("IMAGES");
 		documents.setCreatedTime(new Timestamp(System.currentTimeMillis()));
@@ -44,7 +46,7 @@ public class MockObjectCreator {
 	 * @return
 	 */
 	public UserDetails getUserDetails() {
-		UserDetails userDetails=new UserDetails();
+		UserDetails userDetails = new UserDetails();
 		userDetails.setCreatedTime(new Timestamp(System.currentTimeMillis()));
 		userDetails.setEmail("vivekkumar7442@gmail.com");
 		userDetails.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
@@ -60,7 +62,7 @@ public class MockObjectCreator {
 	 * @return
 	 */
 	public DocumentRequest getDocRequest() {
-		DocumentRequest documentRequest=new DocumentRequest();
+		DocumentRequest documentRequest = new DocumentRequest();
 		documentRequest.setDocumentId(1);
 		documentRequest.setUserId(1);
 		documentRequest.setDescription("Test file");
@@ -73,7 +75,7 @@ public class MockObjectCreator {
 	 * @return
 	 */
 	public DocumentRequest getDocRequestWithoutId() {
-		DocumentRequest documentRequest=new DocumentRequest();
+		DocumentRequest documentRequest = new DocumentRequest();
 		documentRequest.setDocumentId(1);
 		documentRequest.setDescription("Test file");
 		return documentRequest;
@@ -85,9 +87,18 @@ public class MockObjectCreator {
 	 * @return
 	 */
 	public DocumentRequest getDocRequestWithoutDocId() {
-		DocumentRequest documentRequest=new DocumentRequest();
-		documentRequest.setDocumentId(1);
+		DocumentRequest documentRequest = new DocumentRequest();
+		documentRequest.setUserId(1);
 		documentRequest.setDescription("Test file");
+		return documentRequest;
+	}
+
+	public @Valid DocumentRequest getDocRequestWithMinDesc() {
+		DocumentRequest documentRequest = new DocumentRequest();
+		documentRequest.setDocumentId(1);
+		documentRequest.setUserId(1);
+		documentRequest.setDescription("Te");
+
 		return documentRequest;
 	}
 

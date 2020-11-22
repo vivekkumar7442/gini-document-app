@@ -1,9 +1,4 @@
-/**
- * @author vivek
- *
- * 
- */
-package com.gini.file.storage.controller;
+package com.gini.file.storage.service;
 
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +23,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gini.file.storage.beans.ResponseResources;
 import com.gini.file.storage.entity.Documents;
 import com.gini.file.storage.entity.UserDetails;
 import com.gini.file.storage.entity.repository.DocumentRepository;
@@ -36,18 +30,13 @@ import com.gini.file.storage.entity.repository.UserRepository;
 import com.gini.file.storage.exception.GiniCommonException;
 import com.gini.file.storage.objectcreator.MockObjectCreator;
 import com.gini.file.storage.response.DocumentResponse;
-import com.gini.file.storage.utils.Status;
 
-/**
- * @author vivek
- *
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration
-public class DocumetControllerTest {
+public class DocumentServiceTest {
 
 	@MockBean
 	private DocumentRepository documentRepository;
@@ -59,7 +48,7 @@ public class DocumetControllerTest {
 	private MockObjectCreator mockObjectCreator;
 
 	@Autowired
-	private DocumentController documentController;
+	private IDocumentService documentService;
 
 	@Before
 	public void init() {
@@ -79,9 +68,9 @@ public class DocumetControllerTest {
 	@Test
 	public void testgetDocumentDetails() throws GiniCommonException, IOException {
 		HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
-		ResponseResources<ResponseEntity<byte[]>> response = documentController.downloadAttachment(Mockito.anyInt(),
-				Mockito.anyInt(), httpServletResponse);
-		assertTrue(response != null && response.getStatus() == Status.SUCCESS);
+		ResponseEntity<byte[]> response = documentService.downloadAttachment(Mockito.anyInt(), Mockito.anyInt(),
+				httpServletResponse);
+		assertTrue(response != null);
 	}
 
 	/**
@@ -90,9 +79,9 @@ public class DocumetControllerTest {
 	@Test
 	public void testgetDocumentDetailsWithoutValidUserId() throws GiniCommonException, IOException {
 		HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
-		ResponseResources<ResponseEntity<byte[]>> response = documentController.downloadAttachment(null,
-				Mockito.anyInt(), httpServletResponse);
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		ResponseEntity<byte[]> response = documentService.downloadAttachment(null, Mockito.anyInt(),
+				httpServletResponse);
+		assertTrue(response != null);
 	}
 
 	/**
@@ -101,9 +90,9 @@ public class DocumetControllerTest {
 	@Test
 	public void testgetDocumentDetailsWithoutValidDocId() throws GiniCommonException, IOException {
 		HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
-		ResponseResources<ResponseEntity<byte[]>> response = documentController.downloadAttachment(Mockito.anyInt(),
-				null, httpServletResponse);
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		ResponseEntity<byte[]> response = documentService.downloadAttachment(Mockito.anyInt(), null,
+				httpServletResponse);
+		assertTrue(response != null);
 	}
 
 	/**
@@ -114,9 +103,9 @@ public class DocumetControllerTest {
 	public void testgetDocumentDetailsWithoutUserDetails() throws GiniCommonException, IOException {
 		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(null));
 		HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
-		ResponseResources<ResponseEntity<byte[]>> response = documentController.downloadAttachment(Mockito.anyInt(),
-				null, httpServletResponse);
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		ResponseEntity<byte[]> response = documentService.downloadAttachment(Mockito.anyInt(), null,
+				httpServletResponse);
+		assertTrue(response != null);
 	}
 
 	/**
@@ -126,9 +115,9 @@ public class DocumetControllerTest {
 	public void testgetDocumentDetailsWithoutDocDetails() throws GiniCommonException, IOException {
 		Mockito.when(documentRepository.findByIdAndUserDetails_id(Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
 		HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
-		ResponseResources<ResponseEntity<byte[]>> response = documentController.downloadAttachment(Mockito.anyInt(),
+		ResponseEntity<byte[]> response = documentService.downloadAttachment(Mockito.anyInt(),
 				null, httpServletResponse);
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		assertTrue(response != null  );
 
 	}
 
@@ -137,9 +126,8 @@ public class DocumetControllerTest {
 	 **/
 	@Test
 	public void testUpdateDocument() throws GiniCommonException, IOException {
-		ResponseResources<DocumentResponse> response = documentController
-				.updateDocumentDetails(mockObjectCreator.getDocRequest());
-		assertTrue(response != null && response.getStatus() == Status.SUCCESS);
+		DocumentResponse response = documentService.updateDocumentDetails(mockObjectCreator.getDocRequest());
+		assertTrue(response != null);
 	}
 
 	/**
@@ -148,9 +136,8 @@ public class DocumetControllerTest {
 	@Test
 	public void testUpdateDocumentInValidUserId() throws GiniCommonException, IOException {
 		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(null));
-		ResponseResources<DocumentResponse> response = documentController
-				.updateDocumentDetails(mockObjectCreator.getDocRequestWithoutId());
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.updateDocumentDetails(mockObjectCreator.getDocRequestWithoutId());
+		assertTrue(response != null);
 
 	}
 
@@ -159,8 +146,8 @@ public class DocumetControllerTest {
 	 **/
 	@Test
 	public void testUpdateDocumentWithNullRequest() throws GiniCommonException, IOException {
-		ResponseResources<DocumentResponse> response = documentController.updateDocumentDetails(null);
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.updateDocumentDetails(null);
+		assertTrue(response != null);
 
 	}
 
@@ -171,19 +158,19 @@ public class DocumetControllerTest {
 	public void testUpdateDocumentInValidDocId() throws GiniCommonException, IOException {
 		Mockito.when(documentRepository.findByIdAndUserDetails_id(Mockito.anyInt(), Mockito.anyInt())).thenReturn(null);
 
-		ResponseResources<DocumentResponse> response = documentController
+		DocumentResponse response = documentService
 				.updateDocumentDetails(mockObjectCreator.getDocRequestWithoutDocId());
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		assertTrue(response != null);
 
 	}
-	
+
 	/**
 	 * test case to UpdateDocument details-negative case
 	 **/
 	@Test
 	public void testUpdateDocumentWithMinDescription() throws GiniCommonException, IOException {
-		ResponseResources<DocumentResponse> response = documentController.updateDocumentDetails(mockObjectCreator.getDocRequestWithMinDesc());
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.updateDocumentDetails(mockObjectCreator.getDocRequestWithMinDesc());
+		assertTrue(response != null);
 
 	}
 
@@ -194,9 +181,9 @@ public class DocumetControllerTest {
 	public void testUploadDoc() throws GiniCommonException, IOException {
 
 		MultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
-		ResponseResources<DocumentResponse> response = documentController.uploadAttachment(firstFile, Mockito.anyInt(),
-				Mockito.anyString(), Mockito.anyString());
-		assertTrue(response != null && response.getStatus() == Status.SUCCESS);
+		DocumentResponse response = documentService.uploadAttachment(firstFile, Mockito.anyInt(), Mockito.anyString(),
+				Mockito.anyString());
+		assertTrue(response != null);
 	}
 
 	/**
@@ -206,9 +193,9 @@ public class DocumetControllerTest {
 	public void testUploadDocWithoutValidUserId() throws GiniCommonException, IOException {
 		Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(null));
 		MultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
-		ResponseResources<DocumentResponse> response = documentController.uploadAttachment(firstFile, null,
-				Mockito.anyString(), Mockito.anyString());
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.uploadAttachment(firstFile, null, Mockito.anyString(),
+				Mockito.anyString());
+		assertTrue(response != null);
 
 	}
 
@@ -218,9 +205,9 @@ public class DocumetControllerTest {
 	@Test
 	public void testUploadDocWithoutValidType() throws GiniCommonException, IOException {
 		MultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
-		ResponseResources<DocumentResponse> response = documentController.uploadAttachment(firstFile, Mockito.anyInt(),
-				null, Mockito.anyString());
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.uploadAttachment(firstFile, Mockito.anyInt(), null,
+				Mockito.anyString());
+		assertTrue(response != null);
 
 	}
 
@@ -230,9 +217,8 @@ public class DocumetControllerTest {
 	@Test
 	public void testUploadDocWithMinDescLength() throws GiniCommonException, IOException {
 		MultipartFile firstFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
-		ResponseResources<DocumentResponse> response = documentController.uploadAttachment(firstFile, Mockito.anyInt(),
-				null, "Te");
-		assertTrue(response != null && response.getStatus() == Status.FAILURE);
+		DocumentResponse response = documentService.uploadAttachment(firstFile, Mockito.anyInt(), null, "Te");
+		assertTrue(response != null);
 
 	}
 
